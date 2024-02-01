@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Walstube</title>
+</head>
+<body>
+    <div class="arrow">
+        <a href="../index.html">
+            <span class="arrow-icon">&larr;</span>
+        </a>
+    </div>
+    <div id="fullscreenInstructions">
+      
+    </div>
+</body>
+</html>
+
+<style>
+    * {
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background: url(img/michiel/Gastendisplay_Toverwinkel_Hoofdscherm.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        height: 100vh;
+    }
+
+    .arrow {
+        position: fixed;
+        top: 2%; 
+        left: 2%;
+        z-index: 9999; 
+    }
+
+    .arrow a {
+        text-decoration: none;
+    }
+
+    .arrow-icon {
+        display: inline-block;
+        color: #fff; 
+        font-size: 35px; 
+    }
+</style>
+
+<script>
+    document.addEventListener('click', () => {
+        let elem = document.documentElement;
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen({ navigationUI: "show" })
+                .then(() => {
+                    document.getElementById('fullscreenInstructions').style.display = 'none';
+                })
+                .catch((err) => {
+                    console.error(`An error occurred while trying to switch into fullscreen mode: ${err.message} (${err.name})`);
+                });
+        } else {
+            console.error('Fullscreen mode is not supported in this browser.');
+        }
+    });
+</script>
