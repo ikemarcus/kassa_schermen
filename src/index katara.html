@@ -6,7 +6,13 @@
     <title>Katara</title>
 </head>
 <body>
+    <div class="arrow">
+        <a href="../index.html">
+            <span class="arrow-icon">&larr;</span>
+        </a>
+    </div>
     <div id="fullscreenInstructions">
+
     </div>
 </body>
 </html>
@@ -24,6 +30,23 @@
         background-repeat: no-repeat;
         background-position: center;
         height: 100vh;
+    }
+
+    .arrow {
+        position: fixed;
+        top: 2%; 
+        left: 2%;
+        z-index: 9999; 
+    }
+
+    .arrow a {
+        text-decoration: none;
+    }
+
+    .arrow-icon {
+        display: inline-block;
+        color: #000; 
+        font-size: 35px; 
     }
 </style>
 
