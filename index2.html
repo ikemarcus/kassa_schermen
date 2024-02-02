@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigatie</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section {
+            flex: 1;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .section a {
+            text-decoration: none;
+            color: inherit;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Roboto', sans-serif;
+            color: white;
+            font-size: 35px;
+            text-shadow: 3px 3px 3px rgba(0, 0, 0, 1);
+        }
+
+        #section1 {
+            background-image: url('src/img/michiel/Gastendisplay_hoofdshop2_Hoofdscherm_Tovermok_1295.png');
+            background-size: cover;
+        }
+
+        #section2 {
+            background-image: url('src/img/michiel/Gastendisplay_Maximus_hoofdscherm_2_20jrToverland.png');
+            background-size: cover;
+        }
+
+        #section3 {
+            background-image: url('src/img/michiel/Gastendisplay_Merlin_hoofdscherm2.png');
+            background-size: cover;
+        }
+
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background-color: black;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 24px;
+            text-decoration: none;
+        }
+
+        .arrow.left {
+            left: 10px;
+        }
+
+        .arrow.right {
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="section1" class="section">
+        <a href="">
+            <span>Hoofdshop</span>
+        </a>
+    </div>
+    <div id="section2" class="section">
+        <a href="">
+            <span>Maximus</span>
+        </a>
+    </div>
+    <div id="section3" class="section">
+        <a href="">
+            <span>Merlin</span>
+        </a>
+    </div>
+    <div id="section4" class="section">
+        <a href="">
+            <span></span>
+        </a>
+    </div>
+    <div id="section5" class="section">
+        <a href="">
+            <span></span>
+        </a>
+    </div>
+
+    <a class="arrow left" href="index.html">&lt;</a>
+    <a class="arrow right" href="index.html">&gt;</a>
+
+</body>
+</html>
