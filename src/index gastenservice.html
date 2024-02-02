@@ -14,6 +14,11 @@
     <div id="fullscreenInstructions">
       
     </div>
+    <div class="slideshow">
+        <img src="img/michiel/Gastendisplay_gastenservice_Festivalbandjes_01.png" alt="Afbeelding 1">
+        <img src="img/michiel/Gastendisplay_gastenservice_Fotocombikaart_02.png" alt="Afbeelding 2">
+        <img src="img/michiel/Gastendisplay_gastenservice_Naambandjes_01.png" alt="Afbeelding 3">
+    </div>
 </body>
 </html>
 
@@ -25,7 +30,7 @@
     }
 
     body {
-        background: url(img/michiel/Gastendisplay_gastenservice_tvl20jaar.png);
+        background: url(img/michiel/Gastendisplay_gastenservice_tvl20jaar.png) no-repeat center center/cover;
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
@@ -48,6 +53,30 @@
         color: #fff; 
         font-size: 35px; 
     }
+
+    .slideshow {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden; 
+    }
+        
+    .slideshow img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover; 
+        opacity: 0; 
+        transition: opacity 0.5s ease-in-out; 
+    }
+
+    .slideshow img.active {
+        opacity: 1; 
+    }
 </style>
 
 <script>
@@ -65,4 +94,39 @@
             console.error('Fullscreen mode is not supported in this browser.');
         }
     });
+
+    document.addEventListener('DOMContentLoaded', function () {
+            const images = document.querySelectorAll('.slideshow img');
+            let currentIndex = 0;
+            let intervalId;
+
+            function showImage(index) {
+                images.forEach((image, i) => {
+                    if (i === index) {
+                        image.classList.add('active');
+                    } else {
+                        image.classList.remove('active');
+                    }
+                });
+            }
+
+            function nextImage() {
+                currentIndex = (currentIndex + 1) % images.length;
+                showImage(currentIndex);
+                if (currentIndex === 0) {
+                    clearInterval(intervalId); // Stop the slideshow if all images have been shown
+                    setTimeout(startBackgroundSlideshow, 6000); // Start the background slideshow after 1 minute
+                }
+            }
+
+            function startBackgroundSlideshow() {
+                showImage(-1); // Show the background image
+                intervalId = setInterval(nextImage, 10000); // Resume the slideshow after 1 minute break
+            }
+
+            // Start the slideshow after 1 minute
+            setTimeout(() => {
+                startBackgroundSlideshow();
+            }, 6000); // 1 minute in milliseconds
+        });
 </script>
