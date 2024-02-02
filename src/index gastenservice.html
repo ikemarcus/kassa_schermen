@@ -146,9 +146,11 @@
         // Start the slideshow after 1 minute
         setTimeout(() => {
             startBackgroundSlideshow();
+            
+            // Check if the screen width is greater than 700px
+            if (window.innerWidth < 700) {
+                clearInterval(intervalId); // Stop the slideshow
+            }
         }, 6000); // 1 minute in milliseconds
     });
 </script>
-
-
-
