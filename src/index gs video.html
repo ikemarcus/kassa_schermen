@@ -29,51 +29,88 @@
             z-index: -1000;
         }
 
-        .arrow {
+        .slideshow {
             position: fixed;
-            top: 2%; 
-            left: 2%;
-            z-index: 9999; 
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: none; /* Initially hide the slideshow */
+        }
+        
+        .slideshow img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
         }
 
-        .arrow a {
-            text-decoration: none;
-        }
-
-        .arrow-icon {
-            display: inline-block;
-            color: #fff; 
-            font-size: 35px; 
+        .slideshow img.active {
+            opacity: 1;
         }
     </style>
 </head>
 <body>
-    <div class="arrow">
-        <a href="../index2.html">
-            <span class="arrow-icon">&larr;</span>
-        </a>
-    </div>
     <video autoplay loop muted id="video-background">
         <source id="video-source" src="img/vid/Film_Gastendisplay_gastenservice_Noise.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
-
+    <div class="slideshow">
+        <img src="img/michiel/Gastendisplay_gastenservice_Festivalbandjes_01.png" alt="Afbeelding 1">
+        <img src="img/michiel/Gastendisplay_gastenservice_Fotocombikaart_02.png" alt="Afbeelding 2">
+        <img src="img/michiel/Gastendisplay_gastenservice_Naambandjes_01.png" alt="Afbeelding 3">
+    </div>
     <script>
-        window.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const video = document.getElementById('video-background');
-            const videoSource = document.getElementById('video-source');
+            const slideshow = document.querySelector('.slideshow');
 
-            function updateVideoSource() {
-                if (window.innerWidth <= 700) {
-                    videoSource.src = 'img/vid/Film_Gastendisplay_NoisePrijzen_1 (online-video-cutter.com).mp4';
-                } else {
-                    videoSource.src = 'img/vid/Film_Gastendisplay_gastenservice_Noise.mp4';
-                }
-                video.load();
+            // Function to toggle between video background and slideshow
+            function toggleBackground() {
+                video.style.display = video.style.display === 'none' ? 'block' : 'none';
+                slideshow.style.display = slideshow.style.display === 'none' ? 'block' : 'none';
             }
 
-            updateVideoSource(); // Update initially
-            window.addEventListener('resize', updateVideoSource); // Update on window resize
+            // Initial one minute of video background
+            setTimeout(() => {
+                toggleBackground();
+                // Start slideshow after one minute
+                setTimeout(() => {
+                    toggleBackground();
+                    startSlideshow();
+                }, 60000); // One minute in milliseconds
+            }, 60000); // One minute in milliseconds
+
+            // Function to start the slideshow
+            function startSlideshow() {
+                const images = document.querySelectorAll('.slideshow img');
+                let currentIndex = 0;
+                let intervalId = setInterval(() => {
+                    images.forEach((image, i) => {
+                        if (i === currentIndex) {
+                            image.classList.add('active');
+                        } else {
+                            image.classList.remove('active');
+                        }
+                    });
+                    currentIndex = (currentIndex + 1) % images.length;
+                    if (currentIndex === 0) {
+                        clearInterval(intervalId);
+                        setTimeout(() => {
+                            toggleBackground();
+                            setTimeout(() => {
+                                toggleBackground();
+                                startSlideshow();
+                            }, 60000); // One minute in milliseconds
+                        }, 60000); // One minute in milliseconds
+                    }
+                }, 5000); // Image change every 5 seconds
+            }
         });
     </script>
 </body>
