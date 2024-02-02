@@ -54,25 +54,27 @@
         </a>
     </div>
     <video autoplay loop muted id="video-background">
-        <source src="img/vid/Film_Gastendisplay_gastenservice_Noise.mp4" type="video/mp4">
+        <source id="video-source" src="img/vid/Film_Gastendisplay_gastenservice_Noise.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            const video = document.getElementById('video-background');
+            const videoSource = document.getElementById('video-source');
+
+            function updateVideoSource() {
+                if (window.innerWidth <= 700) {
+                    videoSource.src = 'img/vid/Film_Gastendisplay_NoisePrijzen_1 (online-video-cutter.com).mp4';
+                } else {
+                    videoSource.src = 'img/vid/Film_Gastendisplay_gastenservice_Noise.mp4';
+                }
+                video.load();
+            }
+
+            updateVideoSource(); // Update initially
+            window.addEventListener('resize', updateVideoSource); // Update on window resize
+        });
+    </script>
 </body>
 </html>
-
-<script>
-    document.addEventListener('click', () => {
-        let elem = document.documentElement;
-        if (elem.requestFullscreen) {
-            elem.requestFullscreen({ navigationUI: "show" })
-                .then(() => {
-                    document.getElementById('fullscreenInstructions').style.display = 'none';
-                })
-                .catch((err) => {
-                    console.error(`An error occurred while trying to switch into fullscreen mode: ${err.message} (${err.name})`);
-                });
-        } else {
-            console.error('Fullscreen mode is not supported in this browser.');
-        }
-    });
-</script>
