@@ -37,6 +37,7 @@
             text-shadow: 3px 3px 3px rgba(0, 0, 0, 1);
         }
 
+        /* Background images */
         #section1 {
             background-image: url('src/img/smoldering.jpg');
             background-size: cover;
@@ -55,41 +56,68 @@
         #section4 {
             background-image: url('src/img/michiel/Gastendisplay_gastenservice_tvl20jaar.png');
             background-size: cover;
-            background-color: darkcyan;
         }
 
         #section5 {
             background-image: url('src/img/michiel/Gastendisplay_Toverwinkel_Hoofdscherm.png');
             background-size: cover;
-            background-color: deepskyblue;
+        }
+
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background-color: black;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 24px;
+            text-decoration: none;
+        }
+
+        .arrow.left {
+            left: 10px;
+        }
+
+        .arrow.right {
+            right: 10px;
         }
     </style>
 </head>
 <body>
     <div id="section1" class="section">
-        <a href="src/index smoldering.html">
+        <a href="index.html">
             <span>Smouldering</span>
         </a>
     </div>
     <div id="section2" class="section">
-        <a href="src/index katara.html">
+        <a href="index katara.html">
             <span>Katara</span>
         </a>
     </div>
     <div id="section3" class="section">
-        <a href="src/index walstube.html">
+        <a href="index walstube.html">
             <span>Waldstube</span>
         </a>
     </div>
     <div id="section4" class="section">
-        <a href="src/index gastenservice.html">
+        <a href="index gastenservice.html">
             <span>Gastenservice</span>
         </a>
     </div>
     <div id="section5" class="section">
-        <a href="src/index port laguna.html">
+        <a href="index port laguna.html">
             <span>Port Laguna</span>
         </a>
     </div>
+
+    <a class="arrow left" href="index2.html">&lt;</a>
+    <a class="arrow right" href="index2.html">&gt;</a>
+
 </body>
 </html>
