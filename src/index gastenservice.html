@@ -27,9 +27,11 @@
         overflow: hidden;
         margin: 0;
         padding: 0;
+    
     }
 
     body {
+        background-color: #1E355F;
         background: url(img/michiel/Gastendisplay_gastenservice_tvl20jaar.png) no-repeat center center/cover;
         background-size: cover;
         background-repeat: no-repeat;
@@ -96,37 +98,51 @@
     });
 
     document.addEventListener('DOMContentLoaded', function () {
-            const images = document.querySelectorAll('.slideshow img');
-            let currentIndex = 0;
-            let intervalId;
+        const images = document.querySelectorAll('.slideshow img');
+        let currentIndex = 0;
+        let intervalId;
+        let isSlideshowRunning = false;
 
-            function showImage(index) {
-                images.forEach((image, i) => {
-                    if (i === index) {
-                        image.classList.add('active');
-                    } else {
-                        image.classList.remove('active');
-                    }
-                });
-            }
-
-            function nextImage() {
-                currentIndex = (currentIndex + 1) % images.length;
-                showImage(currentIndex);
-                if (currentIndex === 0) {
-                    clearInterval(intervalId); // Stop the slideshow if all images have been shown
-                    setTimeout(startBackgroundSlideshow, 6000); // Start the background slideshow after 1 minute
+        function showImage(index) {
+            images.forEach((image, i) => {
+                if (i === index) {
+                    image.classList.add('active');
+                } else {
+                    image.classList.remove('active');
                 }
-            }
+            });
+        }
 
-            function startBackgroundSlideshow() {
-                showImage(-1); // Show the background image
-                intervalId = setInterval(nextImage, 10000); // Resume the slideshow after 1 minute break
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % images.length;
+            showImage(currentIndex);
+            if (currentIndex === 0) {
+                clearInterval(intervalId); // Stop the slideshow if all images have been shown
+                setTimeout(() => {
+                    document.body.style.backgroundImage = 'url(img/michiel/Gastendisplay_gastenservice_tvl20jaar.png)'; // Set background image when slideshow is finished
+                    isSlideshowRunning = false; // Reset isSlideshowRunning to false
+                }, 1000); // Delay before changing back to the original image
+                setTimeout(startBackgroundSlideshow, 6000); // Start the background slideshow after 1 minute
             }
-
-            // Start the slideshow after 1 minute
+            // Set background color after a slight delay
             setTimeout(() => {
-                startBackgroundSlideshow();
-            }, 6000); // 1 minute in milliseconds
-        });
+                document.body.style.backgroundImage = 'none';
+                document.body.style.backgroundColor = '#1E355F';
+            }, 500); // Adjust the delay time as needed
+        }
+
+        function startBackgroundSlideshow() {
+            showImage(-1); // Show the background image
+            intervalId = setInterval(nextImage, 10000); // Resume the slideshow after 1 minute break
+            isSlideshowRunning = true;
+        }
+
+        // Start the slideshow after 1 minute
+        setTimeout(() => {
+            startBackgroundSlideshow();
+        }, 6000); // 1 minute in milliseconds
+    });
 </script>
+
+
+
