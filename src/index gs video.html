@@ -29,6 +29,7 @@
             width: auto;
             height: auto;
             z-index: 1;
+            transition: opacity 1s ease-in-out; /* Add transition effect for opacity */
         }
 
         .slideshow {
@@ -49,12 +50,14 @@
             height: 100vh;
             object-fit: cover; 
             opacity: 0;
-            transition: opacity 0.5s ease-in-out;
+            transition: opacity 1s ease-in-out; /* Adjust transition timing */
         }
 
         .slideshow img.active {
             opacity: 1;
+            transition: opacity 1s ease-in-out; /* Adjust transition timing */
         }
+
 
         img[src="#"] {
             display: none;
@@ -72,46 +75,75 @@
         <img src="img/michiel/Gastendisplay_gastenservice_Festivalbandjes_01.png" alt="Afbeelding 1">
         <img src="img/michiel/Gastendisplay_gastenservice_Fotocombikaart_02.png" alt="Afbeelding 2">
         <img src="img/michiel/Gastendisplay_gastenservice_Naambandjes_01.png" alt="Afbeelding 3">
-        <img src="#">
+        
     </div>
     <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const images = document.querySelectorAll('.slideshow img');
-        let currentIndex = 0;
-        let intervalId;
-        let isSlideshowRunning = false;
-
-        function showImage(index) {
-            images.forEach((image, i) => {
-                if (i === index) {
-                    image.classList.add('active');
-                    document.body.style.backgroundColor = '#1E355F'; // Set background color when image is shown
-                } else {
-                    image.classList.remove('active');
+        document.addEventListener('DOMContentLoaded', function () {
+            const images = document.querySelectorAll('.slideshow img');
+            let currentIndex = 0;
+            let intervalId;
+            let isSlideshowRunning = false;
+            const videoBackground = document.getElementById('video-background');
+    
+            function showImage(index) {
+                images.forEach((image, i) => {
+                    if (i === index) {
+                        image.classList.add('active');
+                        if (index === 0) {
+                            videoBackground.style.display = 'block'; // Show video initially
+                        } else if (index === images.length - 1) {
+                            videoBackground.style.display = 'none'; // Hide video after the last image
+                        }
+                    } else {
+                        image.classList.remove('active');
+                    }
+                });
+            }
+    
+            function nextImage() {
+                currentIndex = (currentIndex + 1) % images.length;
+                showImage(currentIndex);
+                if (currentIndex === 0 && isSlideshowRunning) {
+                    clearInterval(intervalId); // Stop the slideshow if all images have been shown
+                    setTimeout(startBackgroundSlideshow, 1000); // Start the background slideshow after 1 second
+                }
+            }
+    
+            function startBackgroundSlideshow() {
+                images[0].classList.add('active'); // Show the first image
+                videoBackground.style.opacity = '1'; // Ensure video is visible initially
+                intervalId = setInterval(nextImage, 5000); // Resume the slideshow with a 5-second interval
+                isSlideshowRunning = true;
+    
+                // Start fading out the video gradually
+                setTimeout(function() {
+                    videoBackground.style.opacity = '0'; // Fade out the background video
+                }, 5000); // Delay in milliseconds before fading out (synced with slideshow transition)
+            }
+    
+            // Start the slideshow after 6 seconds
+            setTimeout(() => {
+                startBackgroundSlideshow();
+            }, 6000);
+    
+            // Listen for transition end on the first image
+            images[0].addEventListener('transitionend', function() {
+                if (isSlideshowRunning) {
+                    videoBackground.style.display = 'none'; // Hide video after the first image transition
                 }
             });
-        }
-
-        function nextImage() {
-            currentIndex = (currentIndex + 1) % images.length;
-            showImage(currentIndex);
-            if (currentIndex === 0 && isSlideshowRunning) {
-                clearInterval(intervalId); // Stop the slideshow if all images have been shown
-                setTimeout(startBackgroundSlideshow, 1000); // Start the background slideshow after 1 second
-            }
-        }
-
-        function startBackgroundSlideshow() {
-            images[0].classList.add('active'); // Show the first image
-            intervalId = setInterval(nextImage, 5000); // Resume the slideshow with a 5-second interval
-            isSlideshowRunning = true;
-        }
-
-        // Start the slideshow after 6 seconds
-        setTimeout(() => {
-            startBackgroundSlideshow();
-        }, 6000);
-    });
+    
+            // Check if the last image is reached and make the video background visible again
+            images[images.length - 1].addEventListener('transitionend', function() {
+                if (isSlideshowRunning && currentIndex === images.length - 1) {
+                    videoBackground.style.display = 'block';
+                    videoBackground.style.opacity = '1';
+                }
+            });
+        });
+    
     </script>
+    
+    
 </body>
 </html>
