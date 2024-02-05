@@ -16,6 +16,7 @@
             padding: 0;
             height: 100vh;
             overflow: hidden;
+            background-color: #1E355F; /* Set default background color */
         }
 
         #video-background {
@@ -26,7 +27,7 @@
             min-height: 100%;
             width: auto;
             height: auto;
-            z-index: -1000;
+            z-index: 1;
         }
 
         .slideshow {
@@ -36,16 +37,16 @@
             width: 100vw;
             height: 100vh;
             overflow: hidden;
-            display: none; /* Initially hide the slideshow */
+            display: flex; /* Use flex to properly align images */
+            justify-content: center; /* Center images horizontally */
+            align-items: center; /* Center images vertically */
+            z-index: 2;
         }
-        
+
         .slideshow img {
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            height: auto;
+            object-fit: contain;
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
         }
@@ -61,83 +62,48 @@
         <source id="video-source" src="img/vid/Film_Gastendisplay_gastenservice_Noise.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
-    <video autoplay loop muted class="alternative-video" style="display:none;">
-        <!-- Alternative video source for smaller screens -->
-        <source src="img/vid/Film_Gastendisplay_NoisePrijzen_cut.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
     <div class="slideshow">
-        <img src="img/michiel/Gastendisplay_gastenservice_Festivalbandjes_01.png" alt="Afbeelding 1">
+        <img src="img/michiel/Gastendisplay_gastenservice_Festivalbandjes_01.png" alt="Afbeelding 1" class="active">
         <img src="img/michiel/Gastendisplay_gastenservice_Fotocombikaart_02.png" alt="Afbeelding 2">
         <img src="img/michiel/Gastendisplay_gastenservice_Naambandjes_01.png" alt="Afbeelding 3">
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const video = document.getElementById('video-background');
-            const alternativeVideo = document.querySelector('.alternative-video');
-            const slideshow = document.querySelector('.slideshow');
+    document.addEventListener('DOMContentLoaded', function () {
+        const images = document.querySelectorAll('.slideshow img');
+        let currentIndex = 0;
+        let intervalId;
+        let isSlideshowRunning = false;
 
-            // Function to toggle between video background and slideshow
-            function toggleBackground(isAlternative) {
-                video.style.display = isAlternative ? 'none' : 'block';
-                alternativeVideo.style.display = isAlternative ? 'block' : 'none';
-                slideshow.style.display = 'none';
-            }
-
-            // Initial check to toggle video background based on window width
-            if (window.innerWidth < 700) {
-                toggleBackground(true); // Show alternative video
-            } else {
-                toggleBackground(false); // Show original video
-            }
-
-            // Function to start the slideshow
-            function startSlideshow() {
-                const images = document.querySelectorAll('.slideshow img');
-                let currentIndex = 0;
-                let intervalId = setInterval(() => {
-                    images.forEach((image, i) => {
-                        if (i === currentIndex) {
-                            image.classList.add('active');
-                        } else {
-                            image.classList.remove('active');
-                        }
-                    });
-                    currentIndex = (currentIndex + 1) % images.length;
-                    if (currentIndex === 0) {
-                        clearInterval(intervalId);
-                        setTimeout(() => {
-                            toggleBackground(window.innerWidth < 700);
-                            setTimeout(() => {
-                                toggleBackground(window.innerWidth < 700);
-                                startSlideshow();
-                            }, 60000); // One minute in milliseconds
-                        }, 60000); // One minute in milliseconds
-                    }
-                }, 5000); // Image change every 5 seconds
-            }
-
-            // Initial one minute of video background
-            setTimeout(() => {
-                toggleBackground(window.innerWidth < 700);
-                // Start slideshow after one minute
-                setTimeout(() => {
-                    toggleBackground(window.innerWidth < 700);
-                    startSlideshow();
-                }, 60000); // One minute in milliseconds
-            }, 60000); // One minute in milliseconds
-
-            // Event listener to check window width and toggle video background
-            window.addEventListener('resize', function () {
-                if (window.innerWidth < 700) {
-                    alternativeVideo.style.display = 'block'; // Show alternative video
-                    video.style.display = 'none'; // Hide original video
+        function showImage(index) {
+            images.forEach((image, i) => {
+                if (i === index) {
+                    image.classList.add('active');
                 } else {
-                    alternativeVideo.style.display = 'none'; // Hide alternative video
-                    video.style.display = 'block'; // Show original video
+                    image.classList.remove('active');
                 }
             });
-        });
+        }
+
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % images.length;
+            showImage(currentIndex);
+            if (currentIndex === 0 && isSlideshowRunning) {
+                clearInterval(intervalId); // Stop the slideshow if all images have been shown
+                setTimeout(startBackgroundSlideshow, 1000); // Start the background slideshow after 1 second
+            }
+        }
+
+        function startBackgroundSlideshow() {
+            images[0].classList.add('active'); // Show the first image
+            intervalId = setInterval(nextImage, 5000); // Resume the slideshow with a 5-second interval
+            isSlideshowRunning = true;
+        }
+
+        // Start the slideshow after 6 seconds
+        setTimeout(() => {
+            startBackgroundSlideshow();
+        }, 6000);
+    });
     </script>
 </body>
 </html>
