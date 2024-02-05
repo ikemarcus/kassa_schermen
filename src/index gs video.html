@@ -57,7 +57,13 @@
 </head>
 <body>
     <video autoplay loop muted id="video-background">
+        <!-- Placeholder video source, will be replaced dynamically -->
         <source id="video-source" src="img/vid/Film_Gastendisplay_gastenservice_Noise.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <video autoplay loop muted class="alternative-video" style="display:none;">
+        <!-- Alternative video source for smaller screens -->
+        <source src="img/vid/Film_Gastendisplay_NoisePrijzen_cut.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
     <div class="slideshow">
@@ -69,22 +75,14 @@
         document.addEventListener('DOMContentLoaded', function () {
             const video = document.getElementById('video-background');
             const slideshow = document.querySelector('.slideshow');
+            const alternativeVideo = document.querySelector('.alternative-video');
 
             // Function to toggle between video background and slideshow
-            function toggleBackground() {
-                video.style.display = video.style.display === 'none' ? 'block' : 'none';
-                slideshow.style.display = slideshow.style.display === 'none' ? 'block' : 'none';
+            function toggleBackground(isAlternative) {
+                video.style.display = isAlternative ? 'none' : 'block';
+                alternativeVideo.style.display = isAlternative ? 'block' : 'none';
+                slideshow.style.display = 'none';
             }
-
-            // Initial one minute of video background
-            setTimeout(() => {
-                toggleBackground();
-                // Start slideshow after one minute
-                setTimeout(() => {
-                    toggleBackground();
-                    startSlideshow();
-                }, 60000); // One minute in milliseconds
-            }, 60000); // One minute in milliseconds
 
             // Function to start the slideshow
             function startSlideshow() {
@@ -102,14 +100,42 @@
                     if (currentIndex === 0) {
                         clearInterval(intervalId);
                         setTimeout(() => {
-                            toggleBackground();
+                            toggleBackground(window.innerWidth < 700);
                             setTimeout(() => {
-                                toggleBackground();
+                                toggleBackground(window.innerWidth < 700);
                                 startSlideshow();
                             }, 60000); // One minute in milliseconds
                         }, 60000); // One minute in milliseconds
                     }
                 }, 5000); // Image change every 5 seconds
+            }
+
+            // Initial one minute of video background
+            setTimeout(() => {
+                toggleBackground(window.innerWidth < 700);
+                // Start slideshow after one minute
+                setTimeout(() => {
+                    toggleBackground(window.innerWidth < 700);
+                    startSlideshow();
+                }, 60000); // One minute in milliseconds
+            }, 60000); // One minute in milliseconds
+        });
+
+        window.addEventListener('resize', function() {
+            const video = document.getElementById('video-background');
+            const alternativeVideo = document.querySelector('.alternative-video source');
+            if (window.innerWidth < 700) {
+                video.src = alternativeVideo.src;
+                video.load();
+                video.addEventListener('loadeddata', function() {
+                    video.play();
+                });
+            } else {
+                video.src = "img/vid/Film_Gastendisplay_gastenservice_Noise.mp4";
+                video.load();
+                video.addEventListener('loadeddata', function() {
+                    video.play();
+                });
             }
         });
     </script>
