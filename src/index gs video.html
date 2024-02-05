@@ -37,22 +37,26 @@
             width: 100vw;
             height: 100vh;
             overflow: hidden;
-            display: flex; /* Use flex to properly align images */
-            justify-content: center; /* Center images horizontally */
-            align-items: center; /* Center images vertically */
             z-index: 2;
         }
 
         .slideshow img {
-            width: 100%;
-            height: auto;
-            object-fit: contain;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover; 
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
         }
 
         .slideshow img.active {
             opacity: 1;
+        }
+
+        img[src="#"] {
+            display: none;
         }
     </style>
 </head>
@@ -63,9 +67,11 @@
         Your browser does not support the video tag.
     </video>
     <div class="slideshow">
-        <img src="img/michiel/Gastendisplay_gastenservice_Festivalbandjes_01.png" alt="Afbeelding 1" class="active">
+        <img src="#" class="active">
+        <img src="img/michiel/Gastendisplay_gastenservice_Festivalbandjes_01.png" alt="Afbeelding 1">
         <img src="img/michiel/Gastendisplay_gastenservice_Fotocombikaart_02.png" alt="Afbeelding 2">
         <img src="img/michiel/Gastendisplay_gastenservice_Naambandjes_01.png" alt="Afbeelding 3">
+        <img src="#">
     </div>
     <script>
     document.addEventListener('DOMContentLoaded', function () {
