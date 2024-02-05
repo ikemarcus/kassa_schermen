@@ -84,6 +84,7 @@
             let intervalId;
             let isSlideshowRunning = false;
             const videoBackground = document.getElementById('video-background');
+            const videoSource = document.getElementById('video-source');
     
             function showImage(index) {
                 images.forEach((image, i) => {
@@ -116,32 +117,60 @@
                 isSlideshowRunning = true;
     
                 // Start fading out the video gradually
-                setTimeout(function() {
+                setTimeout(function () {
                     videoBackground.style.opacity = '0'; // Fade out the background video
                 }, 5000); // Delay in milliseconds before fading out (synced with slideshow transition)
             }
     
-            // Start the slideshow after 6 seconds
+            // Function to start alternate video when screen width is smaller than 700px
+            function startAlternateVideo() {
+                if (window.innerWidth < 700) {
+                    videoSource.src = "img/vid/Film_Gastendisplay_NoisePrijzen_cut.mp4"; // Replace with the path to your alternate video
+                    videoBackground.load();
+                    videoBackground.play();
+                }
+            }
+    
+            // Start the slideshow after 6 seconds if screen width is greater than or equal to 700px
             setTimeout(() => {
-                startBackgroundSlideshow();
+                if (window.innerWidth >= 700) {
+                    startBackgroundSlideshow();
+                }
             }, 6000);
     
             // Listen for transition end on the first image
-            images[0].addEventListener('transitionend', function() {
+            images[0].addEventListener('transitionend', function () {
                 if (isSlideshowRunning) {
                     videoBackground.style.display = 'none'; // Hide video after the first image transition
                 }
             });
     
             // Check if the last image is reached and make the video background visible again
-            images[images.length - 1].addEventListener('transitionend', function() {
+            images[images.length - 1].addEventListener('transitionend', function () {
                 if (isSlideshowRunning && currentIndex === images.length - 1) {
                     videoBackground.style.display = 'block';
                     videoBackground.style.opacity = '1';
                 }
             });
-        });
     
+            // Check screen width and start alternate video if necessary
+            startAlternateVideo();
+    
+            // Listen for window resize event to start/stop alternate video and slideshow
+            window.addEventListener('resize', function () {
+                if (window.innerWidth < 700) {
+                    videoBackground.style.display = 'block'; // Ensure video is visible if screen width is less than 700px
+                    clearInterval(intervalId); // Stop slideshow if screen width is less than 700px
+                    videoBackground.pause(); // Pause video if screen width is less than 700px
+                    startAlternateVideo(); // Start alternate video if screen width is less than 700px
+                    isSlideshowRunning = false;
+                } else {
+                    if (!isSlideshowRunning) {
+                        startBackgroundSlideshow(); // Start slideshow if screen width is greater than or equal to 700px
+                    }
+                }
+            });
+        });
     </script>
     
     
