@@ -74,14 +74,21 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const video = document.getElementById('video-background');
-            const slideshow = document.querySelector('.slideshow');
             const alternativeVideo = document.querySelector('.alternative-video');
+            const slideshow = document.querySelector('.slideshow');
 
             // Function to toggle between video background and slideshow
             function toggleBackground(isAlternative) {
                 video.style.display = isAlternative ? 'none' : 'block';
                 alternativeVideo.style.display = isAlternative ? 'block' : 'none';
                 slideshow.style.display = 'none';
+            }
+
+            // Initial check to toggle video background based on window width
+            if (window.innerWidth < 700) {
+                toggleBackground(true); // Show alternative video
+            } else {
+                toggleBackground(false); // Show original video
             }
 
             // Function to start the slideshow
@@ -119,24 +126,17 @@
                     startSlideshow();
                 }, 60000); // One minute in milliseconds
             }, 60000); // One minute in milliseconds
-        });
 
-        window.addEventListener('resize', function() {
-            const video = document.getElementById('video-background');
-            const alternativeVideo = document.querySelector('.alternative-video source');
-            if (window.innerWidth < 700) {
-                video.src = alternativeVideo.src;
-                video.load();
-                video.addEventListener('loadeddata', function() {
-                    video.play();
-                });
-            } else {
-                video.src = "img/vid/Film_Gastendisplay_gastenservice_Noise.mp4";
-                video.load();
-                video.addEventListener('loadeddata', function() {
-                    video.play();
-                });
-            }
+            // Event listener to check window width and toggle video background
+            window.addEventListener('resize', function () {
+                if (window.innerWidth < 700) {
+                    alternativeVideo.style.display = 'block'; // Show alternative video
+                    video.style.display = 'none'; // Hide original video
+                } else {
+                    alternativeVideo.style.display = 'none'; // Hide alternative video
+                    video.style.display = 'block'; // Show original video
+                }
+            });
         });
     </script>
 </body>
