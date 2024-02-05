@@ -17,6 +17,7 @@
             height: 100vh;
             overflow: hidden;
             background-color: #1E355F; /* Set default background color */
+            transition: background-color 0.5s ease-in-out; /* Add transition effect for background color */
         }
 
         #video-background {
@@ -84,6 +85,7 @@
             images.forEach((image, i) => {
                 if (i === index) {
                     image.classList.add('active');
+                    document.body.style.backgroundColor = '#1E355F'; // Set background color when image is shown
                 } else {
                     image.classList.remove('active');
                 }
