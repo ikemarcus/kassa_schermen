@@ -156,32 +156,28 @@
         }, 6000);
     });
 
-
     var images = [
-            'img/michiel/Gastendisplay_hoofdshop2_Prijzen - kopie.png',
-            'img/michiel/Gastendisplay_hoofdshop2_Prijzen_Tovermok_1295_cut.png',
-            'img/michiel/Gastendisplay_Maximus_prijzen_2_cut.png',
-            'img/michiel/Gastendisplay_Merlin_prijzen_cut.png'
-        ];
-        var currentIndex = 0; // Index of the currently displayed image
+        'img/michiel/Gastendisplay_hoofdshop2_Prijzen - kopie.png',
+        'img/michiel/Gastendisplay_hoofdshop2_Prijzen_Tovermok_1295_cut.png',
+        'img/michiel/Gastendisplay_Maximus_prijzen_2_cut.png',
+        'img/michiel/Gastendisplay_Merlin_prijzen_cut.png'
+    ];
+    var currentIndex = 0; // Index of the currently displayed image
 
-        // Function to update background image with a fade effect
-        function updateBackground() {
-            currentIndex = (currentIndex + 1) % images.length; // Move to the next image in the array
-            document.querySelector('body').style.backgroundImage = "url('" + images[currentIndex] + "')";
-        }
+    // Function to update background image with a fade effect
+    function updateBackground() {
+        currentIndex = (currentIndex + 1) % images.length; // Move to the next image in the array
+        document.querySelector('body').style.backgroundImage = "url('" + images[currentIndex] + "')";
+    }
 
-        // Update background initially if the screen width is less than 700px
-        if (window.innerWidth < 700) {
-            updateBackground();
+    // Update background initially if the screen width is less than 700px
+    if (window.innerWidth < 700) {
+        updateBackground();
 
-            // Set interval to update background image every 5 minutes (300000 milliseconds)
-            setInterval(updateBackground, 3000); // 5 minutes in milliseconds
-        }
+        // Set interval to update background image every 5 minutes (300000 milliseconds)
+        setInterval(updateBackground, 30000); // 5 minutes in milliseconds
+    }
 
-      
-
-        // Attach event listener for resize event
-        window.addEventListener('resize', handleResize);
-
+    // Attach event listener for resize event
+    window.addEventListener('resize', handleResize);
 </script>
