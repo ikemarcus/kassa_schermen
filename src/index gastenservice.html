@@ -82,7 +82,7 @@
 
     @media (max-width: 700px) {
         body {
-            background-image: url('img/michiel/Gastendisplay_hoofdshop2_Prijzen - kopie.png');
+            background-image: url('');
         }
     }
 </style>
@@ -153,4 +153,17 @@
             }
         }, 6000);
     });
+
+    if (window.innerWidth < 700) {
+        var images = [
+            'img/michiel/Gastendisplay_hoofdshop2_Prijzen - kopie.png',
+            'img/michiel/Gastendisplay_hoofdshop2_Prijzen_Tovermok_1295_cut.png'
+        ];
+
+        // Get a random index within the range of available images
+        var randomIndex = Math.floor(Math.random() * images.length);
+
+        // Set the background image to a random one from the array
+        document.querySelector('body').style.backgroundImage = "url('" + images[randomIndex] + "')";
+    }
 </script>
