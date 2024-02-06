@@ -84,6 +84,7 @@
         body {
             background-image: url('');
             object-fit: cover;
+            transition: background-image 1s ease-in-out; 
         }
     }
 </style>
@@ -156,37 +157,41 @@
     });
 
 
-    function refreshPage() {
-    window.location.reload(true); // Reload the page, forcing it to fetch from the server (ignoring the cache)
-    }
-
-    // Flag to track if the page has been refreshed
-    var pageRefreshed = false;
-
-    // Check window width and randomize background on page load if necessary
-    if (window.innerWidth < 700) {
-        var images = [
+    var images = [
             'img/michiel/Gastendisplay_hoofdshop2_Prijzen - kopie.png',
             'img/michiel/Gastendisplay_hoofdshop2_Prijzen_Tovermok_1295_cut.png',
             'img/michiel/Gastendisplay_Maximus_prijzen_2_cut.png',
             'img/michiel/Gastendisplay_Merlin_prijzen_cut.png'
         ];
+        var currentIndex = 0; // Index of the currently displayed image
 
-        // Get a random index within the range of available images
-        var randomIndex = Math.floor(Math.random() * images.length);
-
-        // Set the background image to a random one from the array
-        document.querySelector('body').style.backgroundImage = "url('" + images[randomIndex] + "')";
-    }
-
-    // Check window width periodically and refresh the page if less than 700 pixels
-    function handleResize() {
-        if (window.innerWidth < 700 && !pageRefreshed) {
-            refreshPage();
-            pageRefreshed = true; // Set the flag to indicate the page has been refreshed
+        // Function to update background image with a fade effect
+        function updateBackground() {
+            currentIndex = (currentIndex + 1) % images.length; // Move to the next image in the array
+            document.querySelector('body').style.backgroundImage = "url('" + images[currentIndex] + "')";
         }
-    }
 
-    window.addEventListener('resize', handleResize);
+        // Update background initially if the screen width is less than 700px
+        if (window.innerWidth < 700) {
+            updateBackground();
+
+            // Set interval to update background image every 5 minutes (300000 milliseconds)
+            setInterval(updateBackground, 300000); // 5 minutes in milliseconds
+        }
+
+        // Function to handle resize event and adjust background image update
+        function handleResize() {
+            if (window.innerWidth < 700) {
+                updateBackground();
+
+                // Set interval to update background image every 5 minutes (300000 milliseconds)
+                setInterval(updateBackground, 3000); // 5 minutes in milliseconds
+            } else {
+                clearInterval(); // Clear the interval if the screen width is greater than or equal to 700px
+            }
+        }
+
+        // Attach event listener for resize event
+        window.addEventListener('resize', handleResize);
 
 </script>
