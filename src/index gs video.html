@@ -93,13 +93,37 @@
         Your browser does not support the video tag.
     </video>
     <div class="slideshow">
-        <img src="#" class="active">
-        <img src="img/michiel/Gastendisplay_gastenservice_Festivalbandjes_01.png" alt="Afbeelding 1">
-        <img src="img/michiel/Gastendisplay_gastenservice_Fotocombikaart_02.png" alt="Afbeelding 2">
-        <img src="img/michiel/Gastendisplay_gastenservice_Naambandjes_01.png" alt="Afbeelding 3">
+        <img data-src="#" class="active">
+        <img data-src="img/michiel/Gastendisplay_gastenservice_Festivalbandjes_01.png" alt="Afbeelding 1">
+        <img data-src="img/michiel/Gastendisplay_gastenservice_Fotocombikaart_02.png" alt="Afbeelding 2">
+        <img data-src="img/michiel/Gastendisplay_gastenservice_Naambandjes_01.png" alt="Afbeelding 3">
         
     </div>
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const images = document.querySelectorAll('.slideshow img');
+            const options = {
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const lazyLoad = function (entries, observer) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        observer.unobserve(img);
+                    }
+                });
+            };
+
+            const observer = new IntersectionObserver(lazyLoad, options);
+            images.forEach(function (img) {
+                observer.observe(img);
+            });
+        });
+
+
         document.addEventListener('DOMContentLoaded', function () {
             const images = document.querySelectorAll('.slideshow img');
             let currentIndex = 0;
