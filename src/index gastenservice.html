@@ -176,20 +176,10 @@
             updateBackground();
 
             // Set interval to update background image every 5 minutes (300000 milliseconds)
-            setInterval(updateBackground, 300000); // 5 minutes in milliseconds
+            setInterval(updateBackground, 3000); // 5 minutes in milliseconds
         }
 
-        // Function to handle resize event and adjust background image update
-        function handleResize() {
-            if (window.innerWidth < 700) {
-                updateBackground();
-
-                // Set interval to update background image every 5 minutes (300000 milliseconds)
-                setInterval(updateBackground, 3000); // 5 minutes in milliseconds
-            } else {
-                clearInterval(); // Clear the interval if the screen width is greater than or equal to 700px
-            }
-        }
+      
 
         // Attach event listener for resize event
         window.addEventListener('resize', handleResize);
