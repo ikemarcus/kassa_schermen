@@ -155,6 +155,15 @@
         }, 6000);
     });
 
+
+    function refreshPage() {
+    window.location.reload(true); // Reload the page, forcing it to fetch from the server (ignoring the cache)
+    }
+
+    // Flag to track if the page has been refreshed
+    var pageRefreshed = false;
+
+    // Check window width and randomize background on page load if necessary
     if (window.innerWidth < 700) {
         var images = [
             'img/michiel/Gastendisplay_hoofdshop2_Prijzen - kopie.png',
@@ -169,4 +178,15 @@
         // Set the background image to a random one from the array
         document.querySelector('body').style.backgroundImage = "url('" + images[randomIndex] + "')";
     }
+
+    // Check window width periodically and refresh the page if less than 700 pixels
+    function handleResize() {
+        if (window.innerWidth < 700 && !pageRefreshed) {
+            refreshPage();
+            pageRefreshed = true; // Set the flag to indicate the page has been refreshed
+        }
+    }
+
+    window.addEventListener('resize', handleResize);
+
 </script>
