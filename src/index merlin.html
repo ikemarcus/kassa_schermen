@@ -25,18 +25,30 @@
     }
 
     body {
-        background: url(img/michiel/Gastendisplay_Merlin_hoofdscherm2.png);
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
         height: 100vh;
+        animation: fadeInOut 38s infinite; /* Adjust the timing as needed */
+    }
+
+    @keyframes fadeInOut {
+        0%, 25% {
+            background-image: url('img/michiel/Gastendisplay_Merlin_hoofdscherm2.png');
+        }
+        50%, 75% {
+            background-image: url('img/michiel/Gastendisplay_Merlin_hoofdscherm_Schudbol.png');
+        }
+        100% {
+            background-image: url('img/michiel/Gastendisplay_Merlin_hoofdscherm2.png');
+        }
     }
 
     .arrow {
         position: fixed;
-        top: 2%; 
+        top: 2%;
         left: 2%;
-        z-index: 9999; 
+        z-index: 9999;
     }
 
     .arrow a {
@@ -45,16 +57,18 @@
 
     .arrow-icon {
         display: inline-block;
-        color: #fff; 
-        font-size: 35px; 
+        color: #fff;
+        font-size: 35px;
     }
 
     @media (max-width: 700px) {
         body {
-            background-image: url('img/michiel/Gastendisplay_Merlin_prijzen_cut.png');
+            animation: none; 
+            background-image: url('img/michiel/Gastendisplay_Merlin_prijzen_cut.png'); /       
         }
     }
 </style>
+
 
 <script>
     document.addEventListener('click', () => {
